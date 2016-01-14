@@ -41,3 +41,5 @@ lookfor(dead99, wdt)
 lookfor("dead99", wdt)
 lookfor(dead, wdt)
 lookfor("dead", wdt)
+
+getwd()

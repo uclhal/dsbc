@@ -6,5 +6,6 @@ Version: 0.1.0
 Authors@R: "Steve Harris <git@steveharris.me> [aut, cre]"
 License: What license is it under?
 LazyData: TRUE
-Depends: R (>= 3.1.2)
-
+Depends:
+    R (>= 3.1.2)
+RoxygenNote: 5.0.1
