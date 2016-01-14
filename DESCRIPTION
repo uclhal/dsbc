@@ -1,0 +1,10 @@
+Package: dsbc
+Title: Miscellaneous helper functions for the datascience breakfast club team
+Type: Package
+Description: Miscellaneous functions for working with an empahsis on managing critical care data, and exploratory data analysis
+Version: 0.1.0
+Authors@R: "Steve Harris <git@steveharris.me> [aut, cre]"
+License: What license is it under?
+LazyData: TRUE
+Depends: R (>= 3.1.2)
+
