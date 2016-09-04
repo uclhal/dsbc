@@ -1,10 +1,12 @@
 Package: dsbc
-Title: Miscellaneous helper functions for the datascience breakfast club team
+Title: Miscellaneous helper functions from the Data Science Breakfast Club
+Description: Functions for working with R, and Rmarkdown with an empahsis on
+    managing medical paper writing, managing critical care and peri-op data,
+    and exploratory data analysis
 Type: Package
-Description: Miscellaneous functions for working with an empahsis on managing critical care data, and exploratory data analysis
-Version: 0.1.0
+Version: 0.1.2016-09-04
 Authors@R: "Steve Harris <git@steveharris.me> [aut, cre]"
-License: What license is it under?
+License: GPL-3
 LazyData: TRUE
 Depends:
     R (>= 3.1.2)
