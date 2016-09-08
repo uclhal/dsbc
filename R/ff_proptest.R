@@ -5,8 +5,8 @@
 #' and the difference in the proportions with a confidence interval
 #'
 #' @import data.table
-#' @param var a binary variable 
-#' @param byvar a stratifying binary variable 
+#' @param var a binary variable
+#' @param byvar a stratifying binary variable
 #' @param data a data frame (or data.table)
 #' @param dp number of decimal places in formatted response
 #' @return a table and a series of strings formatted for a scientific paper
@@ -14,27 +14,27 @@
 #' @examples
 #' # Create data.frame and summarise proportion of A's and B's
 #' set.seed(1)
-#' dt <- data.frame(
+#' dd <- data.frame(
 #'      X=sample(c(0,1), 100, replace=TRUE),
 #'      strata=sample(c("A", "B"), 100, replace=TRUE))
-#'      
-#' with(dt, table(strata, X))
-#' ff_proptest(X, strata, data=dt)
+#'
+#' with(dd, table(strata, X))
+#' ff_proptest(X, strata, data=dd)
 #' # $table
-#' 
+#'
 #' #      0  1
 #' #   A 23 23
 #' #   B 29 25
-#' 
+#'
 #' # $est1
 #' # [1] "50.0%"
-#' 
+#'
 #' # $est2
 #' # [1] "53.7%"
-#' 
+#'
 #' # $d
 #' # [1] "3.7%"
-#' 
+#'
 #' # $ci
 #' # [1] "17.9% to 25.4%"
 
@@ -49,12 +49,14 @@ ff_proptest <- function(var, byvar, data=dt, dp=1) {
 
     # Relies on data.table
     if (!"data.table" %in% class(data)) {
-        dt <- data.table(data)
+      dd <- data.table(data)
+    } else {
+      dd <- data
     }
 
-    dt <- dt[,c(var, byvar),with=FALSE]
+    dd <- dd[,c(var, byvar),with=FALSE]
     fmt <- paste("%.", dp, "f", sep="")
-    t <- with(dt, table(dt[[2]], dt[[1]]))
+    t <- with(dd, table(dd[[2]], dd[[1]]))
     byvar.var <- prop.test(t)
 
     byvar.var.d     <- byvar.var$estimate[1] - byvar.var$estimate[2]
@@ -78,6 +80,6 @@ ff_proptest <- function(var, byvar, data=dt, dp=1) {
         table = t,
         est1 = est1,
         est2 = est2,
-        d = byvar.var.d, 
+        d = byvar.var.d,
         ci = byvar.var.ci))
 }

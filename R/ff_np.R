@@ -22,10 +22,12 @@
 ff_np <- function(var, data=dt, dp=1) {
     # Relies on data.table
     if (!"data.table" %in% class(data)) {
-        dt <- data.table(data)
+        dd <- data.table(data)
+    } else {
+        dd <- data
     }
     # Return n and % for binary vars
-    v <- eval(substitute(var), dt)
+    v <- eval(substitute(var), dd)
     var <- substitute(var)
     # Error checking - should be coercible to factor
     if(nlevels(v)==0) {
@@ -33,7 +35,7 @@ ff_np <- function(var, data=dt, dp=1) {
         print(paste("WARNING", var, "is not a factor - ", nlevels(v), "levels found at conversion"))
     }
     fmt <- paste("%.", dp, "f", sep="")
-    v.yn  <- dt[,.(n=.N,pct=100*.N/nrow(dt)),by=v]
+    v.yn  <- dd[,.(n=.N,pct=100*.N/nrow(dd)),by=v]
     setorder(v.yn, v)
     print(v.yn)
     v.n <- sprintf("%.0f", v.yn$n)

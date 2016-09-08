@@ -4,7 +4,7 @@
 \alias{ff_proptest}
 \title{Compare two proportions}
 \usage{
-ff_proptest(var, byvar, data = dt, dp = 1)
+ff_proptest(var, byvar, data = dd, dp = 1)
 }
 \arguments{
 \item{var}{a binary variable}
@@ -25,12 +25,12 @@ and the difference in the proportions with a confidence interval
 \examples{
 # Create data.frame and summarise proportion of A's and B's
 set.seed(1)
-dt <- data.frame(
+dd <- data.frame(
      X=sample(c(0,1), 100, replace=TRUE),
      strata=sample(c("A", "B"), 100, replace=TRUE))
-     
-with(dt, table(strata, X))
-ff_proptest(X, strata, data=dt)
+
+with(dd, table(strata, X))
+ff_proptest(X, strata, data=dd)
 # $table
 
 #      0  1

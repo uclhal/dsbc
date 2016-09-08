@@ -8,6 +8,8 @@ Version: 0.1.2016-09-04
 Authors@R: "Steve Harris <git@steveharris.me> [aut, cre]"
 License: GPL-3
 LazyData: TRUE
+Imports:
+    data.table
 Depends:
     R (>= 3.1.2)
 RoxygenNote: 5.0.1
