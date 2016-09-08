@@ -10,6 +10,8 @@ ff_np(var, data = dt, dp = 1)
 \item{var}{a categorical variable}
 
 \item{data}{a data frame (or data.table)}
+
+\item{dp}{number of decimal places in formatted response}
 }
 \description{
 Return a list that summarises the count (n) and percentage of a vector

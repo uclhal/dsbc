@@ -4,7 +4,7 @@
 \alias{ff_proptest}
 \title{Compare two proportions}
 \usage{
-ff_proptest(var, byvar, data = dd, dp = 1)
+ff_proptest(var, byvar, data = dt, dp = 1)
 }
 \arguments{
 \item{var}{a binary variable}

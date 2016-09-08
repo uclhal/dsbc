@@ -6,6 +6,7 @@
 #' @import data.table
 #' @param var a categorical variable 
 #' @param data a data frame (or data.table)
+#' @param dp number of decimal places in formatted response
 #' @keywords dsbc rmarkdown
 #' @examples
 #' # Create data.frame and summarise proportion of A's and B's
