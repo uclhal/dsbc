@@ -12,6 +12,11 @@
 #' @examples
 #' # table_one <- function(dt, table.dict, grp=NULL) {
 
+#  ==========
+#  = Issues =
+#  ==========
+# - [ ] TODO(2016-10-06): generalise so not CCHIC specific
+
 row_normal <-  function(d, row.dict) {
 
     fmt <- paste0("%.", row.dict$decimal_places, "f")
