@@ -46,13 +46,13 @@ table_one <- function(dt, table.dict, grp=NULL) {
 
         # Define row and generate data
         row.dict <- table.dict[i][[1]]
-        val <- dd[item==row.dict$NHICcode]$val
+        val <- dt[item==row.dict$NHICcode]$val
 
         message.progress.row <- paste0("Parsing: ", row.dict$dataItem, " (", row.dict$NHICcode, ")", str(val, 1))
         print(message.progress.row)
 
         if (!is.null(grp)) {
-            val.grp <- dd[item==row.dict$NHICcode][grp]
+            val.grp <- dt[item==row.dict$NHICcode][grp]
         } else {
             val.grp <- NULL
         }
