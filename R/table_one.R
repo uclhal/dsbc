@@ -10,13 +10,78 @@
 #' @param grp a grouping variable (will produce separate summaries per group)
 #' @keywords dsbc rmarkdown cchic
 #' @examples
-#' # table_one <- function(dt, table.dict, grp=NULL) {
+#' # table_one <- function(dt, table.dict, grp=NULL) 
 
 #  ==========
 #  = Issues =
 #  ==========
 # - [ ] TODO(2016-10-06): generalise so not CCHIC specific
 
+#' @export
+table_one <- function(dt, table.dict, grp=NULL) {
+
+    # dt <- dd
+    # Check that the data contains all the fields needed for the table
+    (fields.d <- unique(dt$item))
+    (fields.t <- map_chr(table.dict, "NHICcode"))
+    test.fields_in_data <- sapply(fields.t, function(x) x %in% fields.d)
+    tryCatch(
+        assert_that(sum(test.fields_in_data) == length(test.fields_in_data)),
+
+            error = function(err) {
+                print("!!! ERRROR: table.dict fields not found in data provided (see list below)")
+                print(test.fields_in_data)
+                stop(err)
+
+            }
+     )
+
+    # Needs to receive data including the variables, values and (optionally) the grouping
+
+    message.progress.table <- paste0("Fields to be parsed: ", names(table.dict), " for group: ", as.character(grp) )
+    map_chr(table.dict, "dataItem")
+    print(message.progress.table)
+
+    for (i in 1:length(table.dict)) {
+
+        # Define row and generate data
+        row.dict <- table.dict[i][[1]]
+        val <- dd[item==row.dict$NHICcode]$val
+
+        message.progress.row <- paste0("Parsing: ", row.dict$dataItem, " (", row.dict$NHICcode, ")", str(val, 1))
+        print(message.progress.row)
+
+        if (!is.null(grp)) {
+            val.grp <- dd[item==row.dict$NHICcode][grp]
+        } else {
+            val.grp <- NULL
+        }
+
+        # Generate new row
+        tryCatch(
+            rr <- row_maker(val, row.dict, grp=val.grp),
+
+             error = function(err) {
+                diagnostics <- paste0(c$message, " (with ",  row.dict, ") ", "See data from: ", str(d))
+                print(diagnostics)
+                stop(err)
+            }
+         )
+
+        # Append to data.frame
+        if (i==1) {
+            table_one <- rr
+        }
+        else {
+            table_one <- rbind(table_one, rr)
+        }
+    }
+
+    return(table_one)
+}
+
+
+#' @export
 row_normal <-  function(d, row.dict) {
 
     fmt <- paste0("%.", row.dict$decimal_places, "f")
@@ -71,6 +136,7 @@ row_cont <-  function(d, row.dict) {
 # d <- data.frame(val=val, grp=grp, stringsAsFactors=FALSE)
 # row_cont(d, row.dict)
 
+#' @export
 row_cat <- function(d, row.dict) {
 
     # - [ ] TODO(2016-05-07): allow for ordering of categories
@@ -126,6 +192,7 @@ row_cat <- function(d, row.dict) {
 # row_cat(d, row.dict)
 
 
+#' @export
 row_maker <- function(val, row.dict, grp=NULL, big_N=NULL) {
 
     row.fmt <- NULL
@@ -203,67 +270,4 @@ row_maker <- function(val, row.dict, grp=NULL, big_N=NULL) {
 # (rr <- row_maker(val, row.dict, grp=grp))
 # class(rr)
 
-
-#' @export
-table_one <- function(dt, table.dict, grp=NULL) {
-
-    # dt <- dd
-    # Check that the data contains all the fields needed for the table
-    (fields.d <- unique(dt$item))
-    (fields.t <- map_chr(table.dict, "NHICcode"))
-    test.fields_in_data <- sapply(fields.t, function(x) x %in% fields.d)
-    tryCatch(
-        assert_that(sum(test.fields_in_data) == length(test.fields_in_data)),
-
-            error = function(err) {
-                print("!!! ERRROR: table.dict fields not found in data provided (see list below)")
-                print(test.fields_in_data)
-                stop(err)
-
-            }
-     )
-
-    # Needs to receive data including the variables, values and (optionally) the grouping
-
-    message.progress.table <- paste0("Fields to be parsed: ", names(table.dict), " for group: ", as.character(grp) )
-    map_chr(table.dict, "dataItem")
-    print(message.progress.table)
-
-    for (i in 1:length(table.dict)) {
-
-        # Define row and generate data
-        row.dict <- table.dict[i][[1]]
-        val <- dd[item==row.dict$NHICcode]$val
-
-        message.progress.row <- paste0("Parsing: ", row.dict$dataItem, " (", row.dict$NHICcode, ")", str(val, 1))
-        print(message.progress.row)
-
-        if (!is.null(grp)) {
-            val.grp <- dd[item==row.dict$NHICcode][grp]
-        } else {
-            val.grp <- NULL
-        }
-
-        # Generate new row
-        tryCatch(
-            rr <- row_maker(val, row.dict, grp=val.grp),
-
-             error = function(err) {
-                diagnostics <- paste0(c$message, " (with ",  row.dict, ") ", "See data from: ", str(d))
-                print(diagnostics)
-                stop(err)
-            }
-         )
-
-        # Append to data.frame
-        if (i==1) {
-            table.one <- rr
-        }
-        else {
-            table.one <- rbind(table.one, rr)
-        }
-    }
-
-    return(table.one)
-}
 
