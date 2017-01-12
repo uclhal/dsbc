@@ -87,6 +87,9 @@ row_normal <-  function(d, row.dict) {
     fmt <- paste0("%.", row.dict$decimal_places, "f")
 
     setDT(d) # convert to data.table by reference
+    if (sum(is.na(d$val)) > 0) {
+        warning(paste("!!! NA's found when summarising ", row.dict$dataItem))
+    }
 
     d <- d[, .(
         label = row.dict$dataItem,
@@ -113,6 +116,9 @@ row_cont <-  function(d, row.dict) {
     fmt <- paste0("%.", row.dict$decimal_places, "f")
 
     setDT(d) # convert to data.table by reference
+    if (sum(is.na(d$val)) > 0) {
+        warning(paste("!!! NA's found when summarising ", row.dict$dataItem))
+    }
 
     d <- d[, .(
         label = row.dict$dataItem,

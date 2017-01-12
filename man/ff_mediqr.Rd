@@ -14,7 +14,7 @@ ff_mediqr(var, data = dt, dp = 0)
 \item{dp}{number of decimal places in formatted response}
 }
 \description{
-Return a list that summarises the median and IQR
+Return a list that summarises the median and IQR, or mean and SD
 }
 \examples{
 # Create data.frame and summarise proportion of A's and B's
@@ -22,6 +22,8 @@ set.seed(1)
 dt <- data.frame(choice=sample(c("A", "B"), 100, replace=TRUE), x=rnorm(100))
 head(dt)
 ff_mediqr(x, data=dt, dp=1)
+dd <- data.table(x=rnorm(100,42,6))
+ff_msd(x, dd)
 }
 \keyword{dsbc}
 \keyword{rmarkdown}
